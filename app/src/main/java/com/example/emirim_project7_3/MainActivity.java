@@ -9,10 +9,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    TextView textName, textEmail;
-    View dialogV;
+    EditText editMainName, editMainEmail;
+    TextView textName, textEmail, textToast;
+    View dialogV, toastV;
     EditText editName, editEmail;
 
     @Override
@@ -20,8 +22,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textName = findViewById(R.id.user_name);
-        textEmail = findViewById(R.id.user_email);
+        editMainName = findViewById(R.id.user_name);
+        editMainEmail = findViewById(R.id.user_email);
 
         Button btnInput = findViewById(R.id.btn_input);
 
@@ -41,11 +43,21 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     editName = dialogV.findViewById(R.id.dilog_edit_name);
                     editEmail = dialogV.findViewById(R.id.dilog_edit_email);
-                    textName.setText(editName.getText().toString());
-                    textEmail.setText(editEmail.getText().toString());
+                    editMainName.setText(editName.getText().toString());
+                    editMainEmail.setText(editEmail.getText().toString());
                 }
             });
-            dialog.setNegativeButton("최소", null);
+            dialog.setNegativeButton("최소", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast toast = new Toast(MainActivity.this);
+                    toastV = View.inflate(MainActivity.this, R.layout.toast1, null);
+                    textToast = toastV.findViewById(R.id.toast_text);
+                    textToast.setText("취소했습니다.");
+                    toast.setView(toastV);
+                    toast.show();
+                }
+            });
             dialog.show();
         }
     };
